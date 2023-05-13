@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.operators.dummy import DummyOperator
+from source_load import data_load
 
 
 default_args = {
@@ -16,9 +17,9 @@ default_args = {
 }
 
 dag = DAG(
-    'example_s3_sensor',
+    dag_id='Netflix_Data_Analytics',
     default_args=default_args,
-    description='Example DAG with S3 Sensor',
+    description='This dag runs data analytics on top of netflix datasets',
     schedule_interval=timedelta(days=1),
 )
 
