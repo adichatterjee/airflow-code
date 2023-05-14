@@ -38,7 +38,7 @@ credits_sensor = S3KeySensor(
     dag=dag
 )
 
-titles_rawfile_sensor = S3KeySensor(
+titles_sensor = S3KeySensor(
     task_id='titles_rawfile_sensor',
     poke_interval=60 * 5,
     timeout=60 * 60 * 24 * 7,
@@ -60,4 +60,4 @@ load_data_snowflake = PythonOperator(task_id='my_task'
 start_task = DummyOperator(task_id='start_task', dag=dag)
 end_task = DummyOperator(task_id='end_task', dag=dag)
 
-start_task >> credits_rawfile_sensor >> titles_rawfile_sensor >> load_data_snowflake  >> end_task
+start_task >> credits_sensor >> titles_sensor >> load_data_snowflake  >> end_task
