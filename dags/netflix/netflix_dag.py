@@ -3,11 +3,12 @@ from airflow import DAG
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy import DummyOperator
-import sys
+from dags.netflix.alerting.slack_alert import task_success_slack_alert
+##This used to load a script from a different directory
+##In our use case the script to load data into snowflake is located in a subfolder inside the dags folder
+#sys.path.append('/home/airflow/airflow-code/dags/netflix/source_load')
 
-sys.path.append('/home/airflow/airflow-code/dags/netflix/source_load')
-
-from data_load import run_script
+from dags.netflix.source_load.data_load import run_script
 
 
 default_args = {
@@ -53,6 +54,8 @@ load_data_snowflake = PythonOperator(task_id='Load_Data_Snowflake'
     ,python_callable=run_script, 
     dag=dag)
 
+slack_success_alert=task_success_slack_alert(dag=dag)
+
 
 
 
@@ -61,4 +64,4 @@ load_data_snowflake = PythonOperator(task_id='Load_Data_Snowflake'
 start_task = DummyOperator(task_id='start_task', dag=dag)
 end_task = DummyOperator(task_id='end_task', dag=dag)
 
-start_task >> credits_sensor >> titles_sensor >> load_data_snowflake  >> end_task
+start_task >> credits_sensor >> titles_sensor >> load_data_snowflake  >> slack_success_alert
