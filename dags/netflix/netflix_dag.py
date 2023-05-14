@@ -27,8 +27,8 @@ dag = DAG(
     schedule_interval=timedelta(days=1),
 )
 
-credits_rawfile_sensor = S3KeySensor(
-    task_id='s3_sensor_task',
+credits_sensor = S3KeySensor(
+    task_id='credits_rawfile_sensor',
     poke_interval=60 * 5,
     timeout=60 * 60 * 24 * 7,
     bucket_key='raw_files/credits.csv',
@@ -39,7 +39,7 @@ credits_rawfile_sensor = S3KeySensor(
 )
 
 titles_rawfile_sensor = S3KeySensor(
-    task_id='s3_sensor_task',
+    task_id='titles_rawfile_sensor',
     poke_interval=60 * 5,
     timeout=60 * 60 * 24 * 7,
     bucket_key='raw_files/titles.csv',
