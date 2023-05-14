@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
+from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy import DummyOperator
 import sys
 
