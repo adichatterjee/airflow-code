@@ -48,7 +48,7 @@ titles_sensor = S3KeySensor(
     aws_conn_id='aws_default',
     dag=dag
 )
-load_data_snowflake = PythonOperator(task_id='my_task'
+load_data_snowflake = PythonOperator(task_id='Load_Data_Snowflake'
     ,python_callable=run_script, 
     dag=dag)
 
