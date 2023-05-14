@@ -11,7 +11,7 @@ s3 = boto3.client('s3',region_name='us-east-1')
 
 sf_username = ssm.get_parameter(Name='/snowflake/username', WithDecryption=True)['Parameter']['Value']
 sf_password = ssm.get_parameter(Name='/snowflake/password', WithDecryption=True)['Parameter']['Value']
-sf_account = ssm.get_parameter(Name='/snowflake/account', WithDecryption=True)['Parameter']['Value']
+sf_account = ssm.get_parameter(Name='/snowflake/accountname', WithDecryption=True)['Parameter']['Value']
 
 def run_script():
 
