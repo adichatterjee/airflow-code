@@ -27,18 +27,37 @@ dag = DAG(
     schedule_interval=timedelta(days=1),
 )
 
-s3_sensor = S3KeySensor(
+credits_rawfile_sensor = S3KeySensor(
     task_id='s3_sensor_task',
     poke_interval=60 * 5,
     timeout=60 * 60 * 24 * 7,
-    bucket_key='dags/test-file.csv',
+    bucket_key='raw_files/credits.csv',
     wildcard_match=True,
-    bucket_name='s3-mwaa-airflow',
+    bucket_name='netflix-data-analytics',
     aws_conn_id='aws_default',
     dag=dag
 )
 
+titles_rawfile_sensor = S3KeySensor(
+    task_id='s3_sensor_task',
+    poke_interval=60 * 5,
+    timeout=60 * 60 * 24 * 7,
+    bucket_key='raw_files/titles.csv',
+    wildcard_match=True,
+    bucket_name='netflix-data-analytics',
+    aws_conn_id='aws_default',
+    dag=dag
+)
+load_data_snowflake = PythonOperator(task_id='my_task'
+    ,python_callable=run_script, 
+    dag=dag)
+
+
+
+
+
+
 start_task = DummyOperator(task_id='start_task', dag=dag)
 end_task = DummyOperator(task_id='end_task', dag=dag)
 
-start_task >> s3_sensor >> end_task
+start_task >> credits_rawfile_sensor >> titles_rawfile_sensor >> load_data_snowflake  >> end_task
