@@ -2,7 +2,11 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.operators.dummy import DummyOperator
-from source_load.data_load import run_script
+import sys
+
+sys.path.append('/home/airflow/airflow-code/dags/netflix/source_load')
+
+from data_load import run_script
 
 
 default_args = {
