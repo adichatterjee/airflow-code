@@ -5,8 +5,8 @@ import snowflake.connector as snow
 from snowflake.connector.pandas_tools import write_pandas
 import boto3
 
-ssm = boto3.client('ssm')
-s3 = boto3.client('s3')
+ssm = boto3.client('ssm',region='us-east-1')
+s3 = boto3.client('s3',region='us-east-1')
 
 
 sf_username = ssm.get_parameter(Name='/snowflake/username', WithDecryption=True)['Parameter']['Value']
