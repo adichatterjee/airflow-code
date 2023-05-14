@@ -3,12 +3,14 @@ from airflow import DAG
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy import DummyOperator
-from dags.netflix.alerting.slack_alert import task_success_slack_alert
 ##This used to load a script from a different directory
 ##In our use case the script to load data into snowflake is located in a subfolder inside the dags folder
-#sys.path.append('/home/airflow/airflow-code/dags/netflix/source_load')
+import sys
+sys.path.append('/home/airflow/airflow-code/dags')
 
-from dags.netflix.source_load.data_load import run_script
+from netflix.source_load.data_load import run_script
+from netflix.alerting.slack_alert import task_success_slack_alert
+
 
 
 default_args = {

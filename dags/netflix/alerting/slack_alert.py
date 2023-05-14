@@ -25,7 +25,7 @@ def task_fail_slack_alert(context):
     """
 
     # Create the slack connection and get the web token
-    slack_web_hook_token = BaseHook.get_connection(Slack_Connection).password
+    slack_web_hook_token = BaseHook.get_connection('Slack_Connection').password
 
     # prepare the message which needs to be send to slack
     slack_msg = """
@@ -46,7 +46,7 @@ def task_fail_slack_alert(context):
     # Send the actual message to Slack.
     failed_alert = SlackWebhookOperator(
         task_id='SLACK_FAILED_ALERT',
-        http_conn_id=Slack_Connection,
+        http_conn_id='Slack_Connection',
         webhook_token=slack_web_hook_token,
         message=slack_msg)
 
@@ -62,7 +62,7 @@ def task_success_slack_alert(dag):
     """
 
     # Create the slack connection and get the web token
-    slack_web_hook_token = BaseHook.get_connection(Slack_Connection).password
+    slack_web_hook_token = BaseHook.get_connection('Slack_Connection').password
 
     # prepare the message which needs to be send to slack
     slack_msg = """
@@ -76,7 +76,7 @@ def task_success_slack_alert(dag):
     # Send the actual message to Slack.
     task_success_alert = SlackWebhookOperator(
         task_id='SLACK_SUCCESS_ALERT',
-        http_conn_id=Slack_Connection,
+        http_conn_id='Slack_Connection',
         webhook_token=slack_web_hook_token,
         on_failure_callback=None,
         message=slack_msg,
