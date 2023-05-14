@@ -66,11 +66,10 @@ def task_success_slack_alert(dag):
 
     # prepare the message which needs to be send to slack
     slack_msg = """
-                :green_circle: {{ task_instance.dag_id }} Workflow completed successfully.
+                :green-circle: {{ task_instance.dag_id }} Workflow completed successfully.
                 *Task*: {{ task_instance.task_id }} 
                 *Dag*: {{ task_instance.dag_id }}
                 *Execution Time*: {{ execution_date }} 
-                *Log Url*: {{ task_instance.log_url }}
                 """
 
     # Send the actual message to Slack.
